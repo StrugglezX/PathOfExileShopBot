@@ -6,6 +6,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +44,10 @@ import poeapi.view.PathOfExileStashTabHtmlBuilder;
 import poeapi.view.PathOfExileStashTabListHtmlBuilder;
 
 
-
+@WebServlet(
+		name = "AccountServlet",
+		urlPatterns = {"/account"}
+		)
 public class AccountServlet extends HttpServlet {
 
 	static final Logger LOGGER = LogManager.getLogger(AccountServlet.class);

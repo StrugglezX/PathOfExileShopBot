@@ -1,6 +1,8 @@
 package poeapi.presentation;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
+
 import java.io.*;
 import java.util.Enumeration;
 
@@ -17,6 +19,10 @@ import poeapi.infrastructure.TimePassageSimulator;
 import poeapi.model.PathOfExileApiUrls;
 import poeapi.infrastructure.HttpPostExecutor;
 
+@WebServlet(
+		name = "LoginServlet",
+		urlPatterns = {"/login"}
+		)
 public class LoginServlet extends HttpServlet {
 	static final Logger LOGGER = LogManager.getLogger(AccountServlet.class);
 	
