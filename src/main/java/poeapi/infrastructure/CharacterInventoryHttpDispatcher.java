@@ -21,7 +21,6 @@ public class CharacterInventoryHttpDispatcher {
 
 	public List<PathOfExileItem> getInventory(String accountName, String sessionId, String characterName){
 		String inventoryUrl = _urls.inventortyUrl(accountName, characterName);
-//		System.out.println("CharacterInventoryHttpDispatcher '" + inventoryUrl + "'");
 		String response = _httpDispatcher.getHtmlWithCookie(inventoryUrl, sessionId);
 		List<PathOfExileItem> items = _itemListParser.getItemsFromJsonItemList(response);
 		return items;

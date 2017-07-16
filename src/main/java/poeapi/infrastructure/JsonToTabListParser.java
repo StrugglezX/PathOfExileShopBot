@@ -4,17 +4,21 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import poeapi.model.PathOfExileTabInformation;
 
 public class JsonToTabListParser {
+	static final Logger LOGGER = LogManager.getLogger(JsonItemArrayToItemListParser.class);
 
 	public List<PathOfExileTabInformation> getTabs(String json){
 		json = "{\"tabs\":" + json + "}";
 		List<PathOfExileTabInformation> tabs = new ArrayList<PathOfExileTabInformation>();
 		JSONObject entireJson = new JSONObject(json);
+		LOGGER.info(String.format("\n%s", entireJson.toString(3)));
 		JSONObject tabsObject = entireJson.getJSONObject("tabs");
 		JSONArray arrayOfTabs = tabsObject.getJSONArray("tabs");
 		for(int i = 0; i < arrayOfTabs.length(); i++){

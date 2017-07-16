@@ -4,15 +4,10 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 
 import java.io.*;
-import java.util.Enumeration;
-
 import javax.servlet.http.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.Appender;
-import org.apache.logging.log4j.core.appender.FileAppender;
-
 import poeapi.infrastructure.LoginHttpDispatcher;
 import poeapi.infrastructure.PathOfExileHttpCookieDispatcher;
 import poeapi.infrastructure.TimePassageSimulator;
@@ -24,7 +19,7 @@ import poeapi.infrastructure.HttpPostExecutor;
 		urlPatterns = {"/login"}
 		)
 public class LoginServlet extends HttpServlet {
-	static final Logger LOGGER = LogManager.getLogger(AccountServlet.class);
+	static final Logger LOGGER = LogManager.getLogger(LoginServlet.class);
 	
 	protected PathOfExileApiUrls _urls;
 	protected HttpPostExecutor _httpRequester;
@@ -50,8 +45,11 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) 
 			throws ServletException, IOException {
+		LOGGER.debug("This logging is working");
+		LOGGER.info("This logging is working");
 		LOGGER.warn("This logging is working");
-		
+		LOGGER.error("This logging is working");
+		LOGGER.fatal("This logging is working");
 		
 		
 		String do_this = req.getParameter("do_this");

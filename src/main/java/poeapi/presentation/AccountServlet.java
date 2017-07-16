@@ -136,7 +136,6 @@ public class AccountServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) 
 			throws ServletException, IOException {
-		LOGGER.info("This logging is working");
 		String accountName = req.getParameter("accountName");
 		String sessionId = req.getParameter("POESESSID");
 

@@ -35,7 +35,6 @@ public class StashTabHttpDispatcher {
 			int tabIndex, 
 			String sessionId){
 		String stashUrl = _urls.stashUrl(league, tabIndex, accountName);
-//		System.out.println("StashTabHttpDispatcher '" + stashUrl + "'");
 		String response = _httpDispatcher.getHtmlWithCookie(stashUrl, sessionId);
 		List<PathOfExileItem> items = _tabItemListParser.getItemsFromJsonItemList(response);
 		return items;

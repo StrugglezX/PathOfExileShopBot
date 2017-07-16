@@ -3,25 +3,27 @@ package poeapi.infrastructure;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import poeapi.model.PathOfExileItem;
 
 public class JsonItemArrayToItemListParser {
+	static final Logger LOGGER = LogManager.getLogger(JsonItemArrayToItemListParser.class);
 
 	public List<PathOfExileItem> getItemsFromJsonItemList(String json){
 		List<PathOfExileItem> items = new ArrayList<PathOfExileItem>();
-//		System.out.println("JsonItemArrayToItemListParser '"  + json + "'");
 		JSONObject entireJson = new JSONObject(json);
-//		System.out.println(entireJson.toString(3));
+		LOGGER.info(String.format("\n%s", entireJson.toString(3)));
 		JSONArray jsonItems = entireJson.getJSONArray("items");
-//		System.out.println("List<PathOfExileItem> items = new ArrayList<PathOfExileItem>();\n");
+		LOGGER.debug("List<PathOfExileItem> items = new ArrayList<PathOfExileItem>();\n");
 		for(int i = 0; i < jsonItems.length(); i++){
 			JSONObject jsonItem = jsonItems.getJSONObject(i);
 			PathOfExileItem item = getItemFromJson(jsonItem);
 			items.add(item);
-//			System.out.println(item.debugToString("items"));
+			LOGGER.debug(item.debugToString("items"));
 		}
 		return items;
 	}
