@@ -163,14 +163,6 @@ public class PathOfExileItem {
 		_socketedItems = socketedItems;
 	}
 
-	public static int getGlobal_count() {
-		return global_count;
-	}
-
-	public static void setGlobal_count(int global_count) {
-		PathOfExileItem.global_count = global_count;
-	}
-
 	@Override
 	public String toString() {
 		return "PathOfExileItem [_width=" + _width + ", _height=" + _height + ", _itemLevel=" + _itemLevel + ", _icon="
