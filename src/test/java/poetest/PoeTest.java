@@ -46,12 +46,14 @@ public class PoeTest {
 			throw e;
 		}
 		for(int i = 0; i < actual.size(); i++){
+			T expectedValue = expected.get(i);
+			T actualValue = actual.get(i);
 			try{
-				assertEquals(expected.get(i), actual.get(i));
+				assertEquals(expectedValue, actualValue);
 			}
 			catch(AssertionError e){
-				System.out.println("Expected[" + i + "] " + expected.get(i).toString());
-				System.out.println("Actual..[" + i + "] " + actual.get(i).toString());
+				System.out.println("Expected[" + i + "] " + expectedValue.toString());
+				System.out.println("Actual..[" + i + "] " + actualValue.toString());
 				throw e;
 			}
 		}

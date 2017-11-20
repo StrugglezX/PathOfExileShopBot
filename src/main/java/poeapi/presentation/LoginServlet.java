@@ -10,7 +10,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import poeapi.infrastructure.LoginHttpDispatcher;
 import poeapi.infrastructure.PathOfExileHttpCookieDispatcher;
+import poeapi.infrastructure.PoeTradeHtmlBodyParser;
+import poeapi.infrastructure.PoeTradeItemDispatcher;
+import poeapi.infrastructure.PoeTradeItemModificationBuilder;
 import poeapi.infrastructure.TimePassageSimulator;
+import poeapi.infrastructure.PoeTradeSearchParametersBuilder;
 import poeapi.model.PathOfExileApiUrls;
 import poeapi.infrastructure.HttpPostExecutor;
 
@@ -27,6 +31,11 @@ public class LoginServlet extends HttpServlet {
 	protected PathOfExileHttpCookieDispatcher _httpWithCookieRequester;
 	protected LoginHttpDispatcher _loginDispatcher;
 	
+	PoeTradeHtmlBodyParser _poeTradeHtmlBodyParser;
+	PoeTradeItemModificationBuilder _poeTradeItemModificationBuilder;
+	PoeTradeSearchParametersBuilder _poeTradeParametersBuilder;
+	PoeTradeItemDispatcher _poeTradeItemDispatcher;
+	
 	public void init(ServletConfig conf) throws ServletException{
 		super.init(conf);
 		_urls = new PathOfExileApiUrls();
@@ -34,6 +43,12 @@ public class LoginServlet extends HttpServlet {
 		_timeSimulator = new TimePassageSimulator();
 		_httpWithCookieRequester = new PathOfExileHttpCookieDispatcher(_httpRequester, _timeSimulator);
 		_loginDispatcher = new LoginHttpDispatcher(_urls, _httpWithCookieRequester);
+
+		_poeTradeHtmlBodyParser = new PoeTradeHtmlBodyParser();
+		_poeTradeItemModificationBuilder = new PoeTradeItemModificationBuilder();
+		_poeTradeParametersBuilder = new PoeTradeSearchParametersBuilder(_poeTradeItemModificationBuilder);
+		_poeTradeItemDispatcher = new PoeTradeItemDispatcher(_urls, _httpRequester, _poeTradeHtmlBodyParser, _poeTradeParametersBuilder);
+		_poeTradeItemDispatcher.searchForItem(null);
 	}
 	
 	@Override
@@ -45,13 +60,6 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) 
 			throws ServletException, IOException {
-		LOGGER.debug("This logging is working");
-		LOGGER.info("This logging is working");
-		LOGGER.warn("This logging is working");
-		LOGGER.error("This logging is working");
-		LOGGER.fatal("This logging is working");
-		
-		
 		String do_this = req.getParameter("do_this");
 		if(do_this != null && do_this.equals("login")){
 			String sessionId = req.getParameter("POESESSID");

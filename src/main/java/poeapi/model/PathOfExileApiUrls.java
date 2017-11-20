@@ -13,11 +13,12 @@ public class PathOfExileApiUrls {
     private String _inventoryURL = 
     		"https://www.pathofexile.com/character-window/get-items?character=%s&accountName=%s";
     private String _poeTradeURL = 
-    		"http://poe.trade?" +
+    		"http://poe.trade/search";
+    private String _poeTradeParameters = 
 			"league=%s&" +
-			"type=%s&" +
+			"type=&" +
 			"base=&" +
-			"name=&" +
+			"name=%s&" +
 			"dmg_min=&" + 
 			"dmg_max=&" +
 			"aps_min=&" +
@@ -72,8 +73,8 @@ public class PathOfExileApiUrls {
 			"rarity=&" +
 			"seller=&" +
 			"thread=&" +
-			"identified=%d&" + 
-			"corrupted=%d&" +
+			"identified=%b&" + 
+			"corrupted=%b&" +
 			"online=x&" +
 			"has_buyout=&" +
 			"altart=&" +
@@ -91,32 +92,27 @@ public class PathOfExileApiUrls {
 		url += "mod_max=&";
     	return url;
     }
-    public String poeTradeUrl(
-    		String league, 
-    		String type, 
-    		int linkCount, 
-    		int requiredLevel, 
-    		List<PathOfExileItemModification> mods, 
-    		int quality, 
-    		int experienceLevel, 
-    		int itemLevel,
-    		boolean identified, 
-    		boolean corrupted){
+    
+    public String poeTradeUrl(){
+    	return _poeTradeURL;
+    }
+    public String poeTradeParameters(
+    		PoeTradeSearchParameters parameters){
     	String modString = new String("");
-    	for(PathOfExileItemModification mod : mods){
+    	for(PathOfExileItemModification mod : parameters.getMods()){
     		modString += modString(mod.getModName(), mod.getModMinimum());
     	}
-    	String url = String.format(_poeTradeURL, 
-    		league, 
-    		type, 
-    		linkCount, 
-    		requiredLevel, 
+    	String url = String.format(_poeTradeParameters, 
+    		parameters.getLeague(), 
+    		parameters.getTypeLine(), 
+    		parameters.getLinkCount(), 
+    		parameters.getRequiredLevel(), 
     		modString,
-    		quality, 
-    		experienceLevel, 
-    		itemLevel,
-    		identified, 
-    		corrupted);
+    		parameters.getQuality(), 
+    		parameters.getExperienceLevel(), 
+    		parameters.getItemLevel(),
+    		parameters.isIdentified(), 
+    		parameters.isCorrupted());
 		return url;
     }
     public String loginUrl(){
@@ -145,82 +141,3 @@ public class PathOfExileApiUrls {
     
 }
 
-
-
-/*
-league:Legacy
-type:Boots
-base:Ambush Boots
-name:itemName
-dmg_min:1
-dmg_max:2
-aps_min:3
-aps_max:4
-crit_min:5
-crit_max:6
-dps_min:7
-dps_max:8
-edps_min:9
-edps_max:10
-pdps_min:11
-pdps_max:12
-armour_min:13
-armour_max:14
-evasion_min:15
-evasion_max:16
-shield_min:17
-shield_max:18
-block_min:19
-block_max:20
-sockets_min:21
-sockets_max:22
-link_min:122
-link_max:24
-sockets_r:25
-sockets_g:26
-sockets_b:27
-sockets_w:28
-linked_r:29
-linked_g:30
-linked_b:31
-linked_w:32
-rlevel_min:33
-rlevel_max:34
-rstr_min:35
-rstr_max:36
-rdex_min:37
-rdex_max:38
-rint_min:39
-rint_max:40
-mod_name:(pseudo) (total) +#% to Fire Resistance
-mod_min:41
-mod_max:42
-mod_name:(pseudo) (total) # Life Regenerated per second
-mod_min:43
-mod_max:44
-mod_name=%2B%23%25+to+Fire+Resistance&mod_min=41&mod_max=42&mod_name=%28pseudo%29+%28total%29+%23+Life+Regenerated+per+second&mod_min=43&mod_max=44&mod_name=&mod_min=&mod_max=&
-group_type:And
-group_min:
-group_max:
-group_count:2
-q_min:43
-q_max:44
-level_min:45
-level_max:46
-ilvl_min:47
-ilvl_max:48
-rarity:relic
-seller:sellerNAme
-thread:threadNumber
-identified:1
-corrupted:1
-online:
-has_buyout:1
-altart:x
-capquality:
-buyout_min:50
-buyout_max:51
-buyout_currency:chisel
-crafted:1
-enchanted:0
-*/

@@ -29,6 +29,10 @@ import poeapi.infrastructure.PathOfExileLeagueNameParser;
 import poeapi.infrastructure.PathOfExileStashTabBuilder;
 import poeapi.infrastructure.PathOfExileStashTabListBuilder;
 import poeapi.infrastructure.PathOfExileTabParser;
+import poeapi.infrastructure.PoeTradeHtmlBodyParser;
+import poeapi.infrastructure.PoeTradeItemDispatcher;
+import poeapi.infrastructure.PoeTradeItemModificationBuilder;
+import poeapi.infrastructure.PoeTradeSearchParametersBuilder;
 import poeapi.infrastructure.StashTabHttpDispatcher;
 import poeapi.infrastructure.TimePassageSimulator;
 import poeapi.model.PathOfExileAccount;
@@ -80,6 +84,11 @@ public class AccountServlet extends HttpServlet {
 	PathOfExileLeagueListHtmlBuilder _leagueListBuilder;
 	PathOfExileAccountHtmlBuilder _accountHtmlBuilder;
 	
+	PoeTradeHtmlBodyParser _poeTradeHtmlBodyParser;
+	PoeTradeItemModificationBuilder _poeTradeItemModificationBuilder;
+	PoeTradeSearchParametersBuilder _poeTradeSearchParametersBuilder;
+	PoeTradeItemDispatcher _poeTradeItemDispatcher;
+	
 	public void init(ServletConfig conf) throws ServletException{
 		super.init(conf);
 		_urls = new PathOfExileApiUrls();
@@ -125,6 +134,12 @@ public class AccountServlet extends HttpServlet {
 		_leagueHtmlBuilder = new PathOfExileLeagueHtmlBuilder(_stashTabListHtmlBuilder, _characterListHtmlBuilder);
 		_leagueListBuilder = new PathOfExileLeagueListHtmlBuilder(_leagueHtmlBuilder);
 		_accountHtmlBuilder = new PathOfExileAccountHtmlBuilder(_leagueListBuilder);
+		
+		_poeTradeHtmlBodyParser = new PoeTradeHtmlBodyParser();
+		_poeTradeItemModificationBuilder = new PoeTradeItemModificationBuilder();
+		_poeTradeSearchParametersBuilder = new PoeTradeSearchParametersBuilder(_poeTradeItemModificationBuilder);
+		_poeTradeItemDispatcher = new PoeTradeItemDispatcher(_urls, _httpPostExecutor, _poeTradeHtmlBodyParser, _poeTradeSearchParametersBuilder);
+		_poeTradeItemDispatcher.searchForItem(null);//todo temp until requesting correctly
 	}
 	
 	@Override

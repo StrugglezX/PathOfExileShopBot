@@ -8,8 +8,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Hashtable;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class HttpPostExecutor {
-	
+
+	static final Logger LOGGER = LogManager.getLogger(HttpPostExecutor.class);
 	private Hashtable<String, String> _connectionProperties;
 	
 	public HttpPostExecutor(){
@@ -23,6 +27,7 @@ public class HttpPostExecutor {
 	public String getHTML(String urlToRead) throws Exception {
       StringBuilder result = new StringBuilder();
       URL url = new URL(urlToRead);
+	  LOGGER.debug(String.format("GET %s", url));
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
       conn.setRequestMethod("GET");
       for(String key : _connectionProperties.keySet()){
@@ -44,6 +49,7 @@ public class HttpPostExecutor {
 		  try {
 		    //Create connection
 		    URL url = new URL(targetURL);
+		    LOGGER.debug(String.format("POST %s%s", url, urlParameters));
 		    connection = (HttpURLConnection) url.openConnection();
 		    connection.setRequestMethod("POST");
 		    connection.setRequestProperty("Content-Type", 

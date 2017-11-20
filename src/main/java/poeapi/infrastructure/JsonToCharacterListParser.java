@@ -17,7 +17,7 @@ public class JsonToCharacterListParser {
 		json = "{\"characters\":" + json + "}";
 		List<PathOfExileCharacterInformation> characters = new ArrayList<PathOfExileCharacterInformation>();
 		JSONObject entireJson = new JSONObject(json);
-		LOGGER.info(String.format("\n%s", entireJson.toString(3)));
+//		LOGGER.info(String.format("\n%s", entireJson.toString(3)));
 		JSONArray arrayOfCharacters = entireJson.getJSONArray("characters");
 		for(int i = 0; i < arrayOfCharacters.length(); i++){
 			JSONObject characterJson = arrayOfCharacters.getJSONObject(i);

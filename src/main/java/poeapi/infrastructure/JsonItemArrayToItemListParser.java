@@ -16,14 +16,14 @@ public class JsonItemArrayToItemListParser {
 	public List<PathOfExileItem> getItemsFromJsonItemList(String json){
 		List<PathOfExileItem> items = new ArrayList<PathOfExileItem>();
 		JSONObject entireJson = new JSONObject(json);
-		LOGGER.info(String.format("\n%s", entireJson.toString(3)));
+//		LOGGER.info(String.format("\n%s", entireJson.toString(3)));
 		JSONArray jsonItems = entireJson.getJSONArray("items");
-		LOGGER.debug("List<PathOfExileItem> items = new ArrayList<PathOfExileItem>();\n");
+//		LOGGER.debug("List<PathOfExileItem> items = new ArrayList<PathOfExileItem>();\n");
 		for(int i = 0; i < jsonItems.length(); i++){
 			JSONObject jsonItem = jsonItems.getJSONObject(i);
 			PathOfExileItem item = getItemFromJson(jsonItem);
 			items.add(item);
-			LOGGER.debug(item.debugToString("items"));
+//			LOGGER.debug(item.debugToString("items"));
 		}
 		return items;
 	}
@@ -34,15 +34,25 @@ public class JsonItemArrayToItemListParser {
 		int itemLevel = json.getInt("ilvl");
 		String icon = json.getString("icon");
 		JSONArray jsonSockets = json.getJSONArray("sockets");
-		List<String> sockets = new ArrayList<String>(); 
+		boolean sixLink = false;
 		for(int i = 0; i < jsonSockets.length(); i++){
 			JSONObject socket = jsonSockets.getJSONObject(i);
-			String attribute = socket.getString("attr");
-			sockets.add(attribute);
+			int group = socket.getInt("group");
+			if(group != 0)
+			{
+				break;
+			}
+			if(i == 5)
+			{
+				sixLink = true;
+			}
 		}
 		String name = json.getString("name");
 		String typeLine = json.getString("typeLine");
-		boolean corrupted = json.getBoolean("corrupted");
+		boolean corrupted = false;
+		if(json.has("corrupted")){
+			corrupted = json.getBoolean("corrupted");
+		}
 		boolean identified = json.getBoolean("identified");
 		List<String> implicitMods = new ArrayList<String>();
 		if(json.has("implicitMods")){
@@ -57,6 +67,7 @@ public class JsonItemArrayToItemListParser {
 			JSONArray jsonExplicitMods = json.getJSONArray("explicitMods");
 			for(int i = 0; i < jsonExplicitMods.length(); i++){
 				String explicitMod = jsonExplicitMods.getString(i);
+				explicitMod = explicitMod.replaceAll("(\\r|\\n|\\r\\n)+", " ");
 				explicitMods.add(explicitMod);
 			}
 		}
@@ -80,7 +91,7 @@ public class JsonItemArrayToItemListParser {
 				height,
 				itemLevel,
 				icon,
-				sockets,
+				sixLink,
 				name,
 				typeLine,
 				corrupted,
